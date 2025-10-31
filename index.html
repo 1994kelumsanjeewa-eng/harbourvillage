@@ -7,11 +7,7 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1976d2">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -30,15 +26,8 @@
       width: 100%;
       text-align: center;
     }
-    h1 {
-      color: #333;
-      margin-bottom: 10px;
-      font-size: 28px;
-    }
-    p {
-      color: #666;
-      margin-bottom: 30px;
-    }
+    h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
+    p { color: #666; margin-bottom: 30px; }
     .btn {
       display: block;
       width: 100%;
@@ -51,42 +40,30 @@
       font-size: 18px;
       font-weight: 600;
       transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
     }
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
     }
-    .btn:active {
-      transform: translateY(0);
-    }
-    .icon {
-      font-size: 24px;
-      margin-right: 10px;
-    }
+    .icon { font-size: 24px; margin-right: 10px; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>📊 Employee Attendance System</h1>
     <p>Manage employee details and attendance records</p>
-    
     <a href="namedetail.html" class="btn">
       <span class="icon">👤</span>Employee Details
     </a>
-    
     <a href="fingerdata.html" class="btn">
       <span class="icon">👆</span>Attendance Records
     </a>
   </div>
-
   <script>
-    // Register Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(() => console.log('Service Worker registered'))
-        .catch(err => console.log('Service Worker registration failed:', err));
+        .catch(err => console.log('SW registration failed:', err));
     }
   </script>
 </body>
