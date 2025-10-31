@@ -9,16 +9,8 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="js/db.js"></script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
     .header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -30,9 +22,7 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    .header h2 {
-      margin: 0;
-    }
+    .header h2 { margin: 0; }
     .back-btn {
       background: rgba(255,255,255,0.2);
       color: white;
@@ -41,39 +31,12 @@
       text-decoration: none;
       font-weight: 600;
     }
-    .controls {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .controls > div {
-      margin-bottom: 15px;
-    }
-    .controls label {
-      display: block;
-      margin-bottom: 5px;
-      color: #333;
-      font-weight: 600;
-    }
-    input[type="file"], input[type="text"], select {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    .search-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-    }
-    .btn-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .controls { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .controls > div { margin-bottom: 15px; }
+    .controls label { display: block; margin-bottom: 5px; color: #333; font-weight: 600; }
+    input[type="file"], input[type="text"], select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
+    .search-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
     button {
       padding: 12px 24px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -85,23 +48,9 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-    .info {
-      background: #e3f2fd;
-      padding: 10px 15px;
-      border-radius: 8px;
-      color: #1565c0;
-      font-size: 14px;
-    }
-    .stats {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+    .info { background: #e3f2fd; padding: 10px 15px; border-radius: 8px; color: #1565c0; font-size: 14px; }
+    .stats { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
     .stat-card {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -110,26 +59,10 @@
       flex: 1;
       min-width: 150px;
     }
-    .stat-card h3 {
-      font-size: 28px;
-      margin-bottom: 5px;
-    }
-    .stat-card p {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-    .table-container {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 800px;
-    }
+    .stat-card h3 { font-size: 28px; margin-bottom: 5px; }
+    .stat-card p { font-size: 14px; opacity: 0.9; }
+    .table-container { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
     th {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -140,33 +73,9 @@
       top: 0;
       white-space: nowrap;
     }
-    td {
-      padding: 12px 15px;
-      border-bottom: 1px solid #eee;
-    }
-    tr:hover {
-      background: #f8f9fa;
-    }
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-    }
-    @media (max-width: 768px) {
-      .header {
-        flex-direction: column;
-        gap: 15px;
-      }
-      .btn-group {
-        flex-direction: column;
-      }
-      button {
-        width: 100%;
-      }
-      .search-group {
-        grid-template-columns: 1fr;
-      }
-    }
+    td { padding: 12px 15px; border-bottom: 1px solid #eee; }
+    tr:hover { background: #f8f9fa; }
+    .loading { text-align: center; padding: 40px; color: #666; }
   </style>
 </head>
 <body>
@@ -191,11 +100,9 @@
       <label>📤 Upload CSV File (Manual):</label>
       <input type="file" id="csvFile" accept=".csv">
     </div>
-    
     <div class="info">
       <strong>📡 Last Update:</strong> <span id="lastUpload">Loading...</span>
     </div>
-
     <div class="search-group">
       <div>
         <label>🔍 Search by Name:</label>
@@ -216,7 +123,6 @@
         <input type="text" id="searchRP" placeholder="Enter RP no...">
       </div>
     </div>
-
     <div class="btn-group">
       <button onclick="searchData()">🔍 Search</button>
       <button onclick="showAll()">📋 Show All</button>
