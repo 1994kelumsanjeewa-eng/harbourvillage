@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Records</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1976d2">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="js/db.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .header h2 {
+      margin: 0;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .controls > div {
+      margin-bottom: 15px;
+    }
+    .controls label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 600;
+    }
+    input[type="file"], input[type="text"], input[type="date"], select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .search-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    .info {
+      background: #e3f2fd;
+      padding: 10px 15px;
+      border-radius: 8px;
+      color: #1565c0;
+      font-size: 14px;
+    }
+    .stats {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      flex: 1;
+      min-width: 150px;
+    }
+    .stat-card h3 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    .stat-card p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    .table-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+    th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 10px;
+      text-align: left;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+    tr:hover {
+      background: #f8f9fa;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .btn-group {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+      .search-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>📅 Attendance Records</h2>
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <h3 id="totalRecords">0</h3>
+      <p>Total Records</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="totalDepts">0</h3>
+      <p>Departments</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div>
+      <label>📤 Upload CSV File (Manual):</label>
+      <input type="file" id="csvFinger" accept=".csv">
+    </div>
+    
+    <div class="info">
+      <strong>📡 Last Update:</strong> <span id="fingerLastUpload">Loading...</span>
+    </div>
+
+    <div class="search-group">
+      <div>
+        <label>🔍 Enroll ID:</label>
+        <input type="text" id="searchEnroll" placeholder="Enter enroll ID...">
+      </div>
+      <div>
+        <label>👤 Name:</label>
+        <input type="text" id="searchName" placeholder="Enter name...">
+      </div>
+      <div>
+        <label>🏢 Department:</label>
+        <select id="filterDept">
+          <option value="">All Departments</option>
+        </select>
+      </div>
+      <div>
+        <label>📅 Date:</label>
+        <input type="date" id="searchDate">
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button onclick="searchFinger()">🔍 Search</button>
+      <button onclick="showAllFinger()">📋 Show All</button>
+      <button onclick="exportAttendance()">💾 Export CSV</button>
+      <button onclick="manualSync()">🔄 Refresh Data</button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table id="fingerResults">
+      <tbody>
+        <tr><td class="loading">⏳ Loading data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="js/fingerdata.js"></script>
+</body>
+</html>
